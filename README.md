@@ -7,41 +7,25 @@ Official implementation for **ZS-KAN: Zero-shot Image Denoising with Lightweight
 
 This repository provides:
 - A unified CLI (`zskan`) for single-image denoising and dataset-level evaluation
-- Zero-shot denoising models (`ZS-N2N`, `ZS-KAN`, `ZS-MKAN`)
-- BM3D baseline integration
-- Built-in microscopy sample pairs for out-of-the-box testing
 
 ## Table of Contents
 
 - [Abstract](#abstract)
-- [ZS-KAN Network Architecture](#zs-kan-network-architecture)
 - [Installation](#installation)
 - [Data Preparation](#data-preparation)
+- [ZS-KAN Network Architecture](#zs-kan-network-architecture)
 - [Quick Start](#quick-start)
-- [Reproduce Main Results](#reproduce-main-results)
 - [CLI Reference](#cli-reference)
-- [Project Structure](#project-structure)
 - [Citation](#citation)
 - [License](#license)
 
 ## Abstract
 
-Deep zero-shot denoising avoids paired clean/noisy training data by optimizing a lightweight network directly on the target image. This project implements ZS-KAN and related baselines for synthetic and real-noise settings, with practical scripts for single-image denoising, dataset evaluation, and residual-noise analysis.
+ZS-KAN is a lightweight zero-shot image denoising method designed for data-limited and edge-computing scenarios. It combines the efficiency of convolutional neural networks with the strong function-approximation ability of Kolmogorov-Arnold Networks (KANs).
 
-## ZS-KAN Network Architecture
+Across both synthetic and real noisy images, ZS-KAN achieves comparable or better performance than state-of-the-art zero-shot denoisers while using only 1%–25% of their parameters, with better preservation of fine details in many cases.
 
-ZS-KAN uses a lightweight CNN front-end followed by a final `KAN_Convolutional_Layer` (`kernel_size=1x1`, `n_convs=1`).
-
-Two common variants are:
-
-| Variant | Core setting | Approx. parameters | Default image type |
-| --- | --- | --- | --- |
-| 6k ZS-KAN | `chan_embed=25`, two 3x3 hidden conv blocks | ~6K | `gray` |
-| 24k ZS-KAN | `chan_embed=35`, three 3x3 hidden conv blocks | ~24K | `color (and non-gray)` |
-
-To adjust network size, modify `src/zskan_denoising/models/zs_models.py`:
-- `chan_embed` in `ZS_KAN.__init__`
-- Number of CNN layers (for example, enable/disable `conv3`)
+These results show that KAN-based lightweight denoisers are practical for real-world deployment, especially in medical imaging workflows.
 
 ## Installation
 
@@ -50,15 +34,22 @@ Tested environment:
 - PyTorch `2.2.1`
 - CUDA `12.1`
 
-### 1) Create environment
+### 1) Clone project
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+git clone https://github.com/Jayx-Wang/ZS-KAN.git
+cd ZS-KAN
+```
+
+### 2) Create environment
+
+```bash
+python -m venv zskan
+source zskan/bin/activate
 pip install -U pip
 ```
 
-### 2) Install PyTorch (CUDA 12.1)
+### 3) Install PyTorch (CUDA 12.1)
 
 ```bash
 pip install torch==2.2.1 torchvision==0.17.1 --index-url https://download.pytorch.org/whl/cu121
@@ -66,7 +57,7 @@ pip install torch==2.2.1 torchvision==0.17.1 --index-url https://download.pytorc
 
 For other CUDA/CPU targets, use [official PyTorch instructions](https://pytorch.org/get-started/locally/).
 
-### 3) Install project dependencies
+### 4) Install project dependencies
 
 Portable install:
 
@@ -82,7 +73,7 @@ pip install -r requirements-lock.txt
 pip install -e .
 ```
 
-### 4) Check CLI
+### 5) Check CLI
 
 ```bash
 zskan --help
@@ -116,12 +107,29 @@ Current built-in pairs:
 - `TwoPhoton_BPAE_B_4.png` <-> `TwoPhoton_BPAE_B_4.png`
 - `Confocal_MICE_4.png` <-> `Confocal_MICE_4.png`
 
-## Quick Start for ZS-KAN
+## ZS-KAN Network Architecture
+
+ZS-KAN uses a lightweight CNN front-end followed by a final `KAN_Convolutional_Layer` (`kernel_size=1x1`, `n_convs=1`).
+
+Two common variants are:
+
+| Variant | Core setting | Approx. parameters | Default image type |
+| --- | --- | --- | --- |
+| 6k ZS-KAN | `chan_embed=25`, two 3x3 hidden conv blocks | ~6K | `gray` |
+| 24k ZS-KAN | `chan_embed=35`, three 3x3 hidden conv blocks | ~24K | `color (and non-gray)` |
+
+To adjust network size, modify `src/zskan_denoising/models/zs_models.py`:
+- `chan_embed` in `ZS_KAN.__init__`
+- Number of CNN layers (for example, enable/disable `conv3`)
+
+## Quick Start
 
 All outputs are saved to `outputs/...`.
 - By default, no cropping is applied. To enable center-crop, add `--crop-size <N>`.
 
-### 1) Kodak synthetic + ZS-KAN
+### 1) Single Image Denoising
+
+Kodak synthetic + ZS-KAN:
 
 ```bash
 zskan denoise-single \
@@ -136,7 +144,7 @@ zskan denoise-single \
   --device cuda
 ```
 
-### 2) Microscopy real + ZS-KAN
+Microscopy real + ZS-KAN:
 
 ```bash
 zskan denoise-single \
@@ -156,9 +164,7 @@ For each run, the directory contains:
 - `denoised.png`
 - `metrics.json` (PSNR/SSIM/MS-SSIM/runtime)
 
-## Reproduce Main Results
-
-### Dataset-level evaluation (ZS)
+### 2) Evaluation on Datasets
 
 Synthetic noise on Kodak:
 
@@ -175,24 +181,11 @@ zskan evaluate-dataset \
   --device cuda
 ```
 
-Real microscopy pairs:
-
-```bash
-zskan evaluate-dataset \
-  --method zs \
-  --model zs_kan \
-  --img-type gray \
-  --noise-source real \
-  --data-folder data/microscopy \
-  --output-dir outputs/eval_micro_zs \
-  --device cuda
-```
-
 For other methods, refer to:
 - `zskan denoise-single --help`
 - `zskan evaluate-dataset --help`
 
-### Residual-noise analysis
+Optional residual-noise analysis:
 
 ```bash
 zskan analyze-noise \
@@ -244,31 +237,6 @@ Output report:
 
 - Computes residual histogram, autocorrelation, and frequency spectrum.
 - Saves one summary plot image.
-
-## Project Structure
-
-```text
-.
-├── data
-│   ├── kodak24
-│   │   └── clean
-│   └── microscopy
-│       ├── clean
-│       └── noisy
-├── scripts
-│   └── download_kodak24.sh
-├── src
-│   └── zskan_denoising
-│       ├── cli
-│       ├── core
-│       ├── engine
-│       ├── metrics
-│       ├── models
-│       ├── utils
-│       ├── layers
-│       │   └── kan_conv_v1
-└── tests
-```
 
 ## Citation
 
