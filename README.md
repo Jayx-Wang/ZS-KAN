@@ -95,7 +95,7 @@ data/microscopy/clean
 data/microscopy/noisy
 ```
 
-Filenames in `clean/` and `noisy/` must match one-to-one, 具有相同的名字。
+Filenames in `clean/` and `noisy/` must match one-to-one and have the same name.
 Current built-in pairs:
 - `TwoPhoton_BPAE_B_4.png` <-> `TwoPhoton_BPAE_B_4.png`
 - `Confocal_MICE_4.png` <-> `Confocal_MICE_4.png`
