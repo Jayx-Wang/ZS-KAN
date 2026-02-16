@@ -100,16 +100,10 @@ Current built-in pairs:
 - `TwoPhoton_BPAE_B_4.png` <-> `TwoPhoton_BPAE_B_4.png`
 - `Confocal_MICE_4.png` <-> `Confocal_MICE_4.png`
 
-## Quick Start
+## Quick Start for ZS-KAN
 
 All outputs are saved to `outputs/...`.
-Recommended device policy:
-- ZS-based methods (`zs_n2n`, `zs_kan`, `zs_mkan`): `--device cuda`
-- BM3D baseline: run on CPU
-Cropping policy:
-- By default, no cropping is applied.
-- To enable center-crop, add `--crop-size <N>` (for example, `--crop-size 256`).
-Quick Start for ZS-KAN. For other methods, run `zskan denoise-single --help` and `zskan evaluate-dataset --help`.
+- By default, no cropping is applied. To enable center-crop, add `--crop-size <N>`.
 
 ### 1) Kodak synthetic + ZS-KAN
 
@@ -120,7 +114,7 @@ zskan denoise-single \
   --img-type color \
   --noise-source synthetic \
   --noise-type poiss \
-  --noise-level 80 \
+  --noise-level 50 \
   --clean-img-path data/kodak24/clean/kodim01.png \
   --output-dir outputs/quickstart_kodak_zs \
   --device cuda
@@ -159,7 +153,7 @@ zskan evaluate-dataset \
   --img-type color \
   --noise-source synthetic \
   --noise-type poiss \
-  --noise-level 80 \
+  --noise-level 50 \
   --data-folder data/kodak24/clean \
   --output-dir outputs/eval_kodak_zs \
   --device cuda
@@ -178,20 +172,9 @@ zskan evaluate-dataset \
   --device cuda
 ```
 
-### Dataset-level evaluation (BM3D)
-
-```bash
-zskan evaluate-dataset \
-  --method bm3d \
-  --img-type color \
-  --noise-source synthetic \
-  --noise-type gauss \
-  --noise-level 25 \
-  --sigma-bm3d 0.1 \
-  --data-folder data/kodak24/clean \
-  --output-dir outputs/eval_kodak_bm3d \
-  --device cpu
-```
+For other methods, refer to:
+- `zskan denoise-single --help`
+- `zskan evaluate-dataset --help`
 
 ### Residual-noise analysis
 
