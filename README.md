@@ -14,6 +14,7 @@ This repository provides:
 ## Table of Contents
 
 - [Abstract](#abstract)
+- [ZS-KAN Network Architecture](#zs-kan-network-architecture)
 - [Installation](#installation)
 - [Data Preparation](#data-preparation)
 - [Quick Start](#quick-start)
@@ -26,6 +27,21 @@ This repository provides:
 ## Abstract
 
 Deep zero-shot denoising avoids paired clean/noisy training data by optimizing a lightweight network directly on the target image. This project implements ZS-KAN and related baselines for synthetic and real-noise settings, with practical scripts for single-image denoising, dataset evaluation, and residual-noise analysis.
+
+## ZS-KAN Network Architecture
+
+ZS-KAN uses a lightweight CNN front-end followed by a final `KAN_Convolutional_Layer` (`kernel_size=1x1`, `n_convs=1`).
+
+Two common variants are:
+
+| Variant | Core setting | Approx. parameters | Default image type |
+| --- | --- | --- | --- |
+| 6k ZS-KAN | `chan_embed=25`, two 3x3 hidden conv blocks | ~6K | `gray` |
+| 24k ZS-KAN | `chan_embed=35`, three 3x3 hidden conv blocks | ~24K | `color (and non-gray)` |
+
+To adjust network size, modify `src/zskan_denoising/models/zs_models.py`:
+- `chan_embed` in `ZS_KAN.__init__`
+- Number of CNN layers (for example, enable/disable `conv3`)
 
 ## Installation
 

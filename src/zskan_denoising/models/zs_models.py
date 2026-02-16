@@ -49,12 +49,20 @@ class ZS_MKAN(nn.Module):
 
 
 class ZS_KAN(nn.Module):
-    def __init__(self, n_chan: int = 3, chan_embed: int = 35, grid_size: int = 3, device: str = "cuda"):
+    def __init__(
+        self,
+        n_chan: int = 3,
+        chan_embed: int = 35,
+        use_conv3: bool = True,
+        grid_size: int = 3,
+        device: str = "cuda",
+    ):
         super().__init__()
+        self.use_conv3 = use_conv3
         self.act = nn.LeakyReLU(negative_slope=0.2, inplace=True)
         self.conv1 = nn.Conv2d(n_chan, chan_embed, 3, padding=1)
         self.conv2 = nn.Conv2d(chan_embed, chan_embed, 3, padding=1)
-        self.conv3 = nn.Conv2d(chan_embed, chan_embed, 3, padding=1)
+        self.conv3 = nn.Conv2d(chan_embed, chan_embed, 3, padding=1) if use_conv3 else None
         self.conv = nn.Conv2d(chan_embed, n_chan, 3, padding=1)
         # self.kan_conv1 = KAN_Convolutional_Layer(
         #     n_convs=1,
@@ -83,7 +91,8 @@ class ZS_KAN(nn.Module):
         # x = self.kan_conv2(x)
         x = self.act(self.conv1(x))
         x = self.act(self.conv2(x))
-        x = self.act(self.conv3(x))
+        if self.use_conv3 and self.conv3 is not None:
+            x = self.act(self.conv3(x))
         x = self.act(self.conv(x))
         x = self.kan_conv(x)
         # x = self.conv(x)
@@ -103,4 +112,8 @@ def build_model(model_name: str, n_chan: int, device: str):
         raise ValueError(f"Unsupported model '{model_name}'. Choices: {list(model_dict)}")
     if key == "zs_n2n":
         return model_dict[key](n_chan)
+    if key == "zs_kan":
+        if n_chan == 1:
+            return model_dict[key](n_chan, chan_embed=25, use_conv3=False, device=device)
+        return model_dict[key](n_chan, chan_embed=35, use_conv3=True, device=device)
     return model_dict[key](n_chan, device=device)
