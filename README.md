@@ -44,9 +44,9 @@ cd ZS-KAN
 ### 2) Create environment
 
 ```bash
-python -m venv zskan
-source zskan/bin/activate
-pip install -U pip
+conda create -n zskan python=3.8 -y
+conda activate zskan
+python -m pip install -U pip
 ```
 
 ### 3) Install PyTorch (CUDA 12.1)
