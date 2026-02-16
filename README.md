@@ -103,6 +103,9 @@ Current built-in pairs:
 ## Quick Start
 
 All outputs are saved to `outputs/...`.
+Recommended device policy:
+- ZS-based methods (`zs_n2n`, `zs_kan`, `zs_mkan`): `--device cuda`
+- BM3D baseline: run on CPU
 
 ### 1) Kodak synthetic + ZS-KAN
 
@@ -115,7 +118,8 @@ zskan denoise-single \
   --noise-type poiss \
   --noise-level 80 \
   --clean-img-path data/kodak24/clean/kodim01.png \
-  --output-dir outputs/quickstart_kodak_zs
+  --output-dir outputs/quickstart_kodak_zs \
+  --device cuda
 ```
 
 ### 2) Kodak synthetic + BM3D
@@ -129,7 +133,8 @@ zskan denoise-single \
   --noise-level 25 \
   --sigma-bm3d 0.1 \
   --clean-img-path data/kodak24/clean/kodim01.png \
-  --output-dir outputs/quickstart_kodak_bm3d
+  --output-dir outputs/quickstart_kodak_bm3d \
+  --device cpu
 ```
 
 ### 3) Microscopy real + ZS-KAN
@@ -142,7 +147,8 @@ zskan denoise-single \
   --noise-source real \
   --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
   --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
-  --output-dir outputs/quickstart_micro_zs
+  --output-dir outputs/quickstart_micro_zs \
+  --device cuda
 ```
 
 ### 4) Microscopy real + BM3D
@@ -155,7 +161,8 @@ zskan denoise-single \
   --sigma-bm3d 0.1 \
   --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
   --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
-  --output-dir outputs/quickstart_micro_bm3d
+  --output-dir outputs/quickstart_micro_bm3d \
+  --device cpu
 ```
 
 For each run, the directory contains:
@@ -179,7 +186,8 @@ zskan evaluate-dataset \
   --noise-type poiss \
   --noise-level 80 \
   --data-folder data/kodak24/clean \
-  --output-dir outputs/eval_kodak_zs
+  --output-dir outputs/eval_kodak_zs \
+  --device cuda
 ```
 
 Real microscopy pairs:
@@ -191,7 +199,8 @@ zskan evaluate-dataset \
   --img-type gray \
   --noise-source real \
   --data-folder data/microscopy \
-  --output-dir outputs/eval_micro_zs
+  --output-dir outputs/eval_micro_zs \
+  --device cuda
 ```
 
 ### Dataset-level evaluation (BM3D)
@@ -205,7 +214,8 @@ zskan evaluate-dataset \
   --noise-level 25 \
   --sigma-bm3d 0.1 \
   --data-folder data/kodak24/clean \
-  --output-dir outputs/eval_kodak_bm3d
+  --output-dir outputs/eval_kodak_bm3d \
+  --device cpu
 ```
 
 ### Residual-noise analysis
@@ -236,7 +246,7 @@ Training control (ZS):
 - `--lr`
 - `--step-size`
 - `--gamma`
-- `--device`
+- `--device` (recommended: `cuda`)
 
 BM3D control:
 - `--sigma-bm3d`
