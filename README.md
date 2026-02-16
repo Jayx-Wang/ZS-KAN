@@ -109,6 +109,7 @@ Recommended device policy:
 Cropping policy:
 - By default, no cropping is applied.
 - To enable center-crop, add `--crop-size <N>` (for example, `--crop-size 256`).
+Quick Start for ZS-KAN. For other methods, run `zskan denoise-single --help` and `zskan evaluate-dataset --help`.
 
 ### 1) Kodak synthetic + ZS-KAN
 
@@ -125,22 +126,7 @@ zskan denoise-single \
   --device cuda
 ```
 
-### 2) Kodak synthetic + BM3D
-
-```bash
-zskan denoise-single \
-  --method bm3d \
-  --img-type color \
-  --noise-source synthetic \
-  --noise-type gauss \
-  --noise-level 25 \
-  --sigma-bm3d 0.1 \
-  --clean-img-path data/kodak24/clean/kodim01.png \
-  --output-dir outputs/quickstart_kodak_bm3d \
-  --device cpu
-```
-
-### 3) Microscopy real + ZS-KAN
+### 2) Microscopy real + ZS-KAN
 
 ```bash
 zskan denoise-single \
@@ -152,20 +138,6 @@ zskan denoise-single \
   --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4.png \
   --output-dir outputs/quickstart_micro_zs \
   --device cuda
-```
-
-### 4) Microscopy real + BM3D
-
-```bash
-zskan denoise-single \
-  --method bm3d \
-  --img-type gray \
-  --noise-source real \
-  --sigma-bm3d 0.1 \
-  --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
-  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4.png \
-  --output-dir outputs/quickstart_micro_bm3d \
-  --device cpu
 ```
 
 For each run, the directory contains:
