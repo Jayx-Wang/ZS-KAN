@@ -22,4 +22,5 @@ def bm3d_denoise_torch(noisy_tensor: torch.Tensor, sigma: float = 0.1) -> torch.
     else:
         raise ValueError(f"Unsupported number of channels: {noisy_np.shape[2]}")
 
-    return torch.from_numpy(denoised_np).permute(2, 0, 1).unsqueeze(0)
+    denoised_tensor = torch.from_numpy(denoised_np).permute(2, 0, 1).unsqueeze(0)
+    return denoised_tensor.to(device=noisy_tensor.device, dtype=noisy_tensor.dtype)
