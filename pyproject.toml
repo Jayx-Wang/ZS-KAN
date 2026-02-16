@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zskan-denoising"
+version = "0.1.0"
+description = "ZS-KAN: Zero-shot Image Denoising with Lightweight Kolmogorov-Arnold Networks"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+  { name = "Jianxu Wang" },
+  { name = "Ge Wang" }
+]
+keywords = ["image denoising", "zero-shot", "KAN", "biomedical imaging"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Image Processing"
+]
+dependencies = [
+  "numpy>=1.24,<2.0",
+  "Pillow>=10.0",
+  "matplotlib>=3.7",
+  "scipy==1.10.1",
+  "tqdm>=4.65",
+  "bm3d==4.0.1",
+  "pytorch-msssim==1.0.0",
+  "torch==2.2.1",
+  "torchvision==0.17.1"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+zskan = "zskan_denoising.cli.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
