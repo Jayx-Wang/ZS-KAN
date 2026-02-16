@@ -120,7 +120,6 @@ zskan denoise-single \
   --noise-source synthetic \
   --noise-type poiss \
   --noise-level 80 \
-  --crop-size 256 \
   --clean-img-path data/kodak24/clean/kodim01.png \
   --output-dir outputs/quickstart_kodak_zs \
   --device cuda
