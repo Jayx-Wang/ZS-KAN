@@ -18,8 +18,12 @@ class ZS_N2N(nn.Module):
 
 
 class ZS_MKAN(nn.Module):
-    def __init__(self, n_chan: int = 3, chan_embed: int = 12, grid_size: int = 3, device: str = "cuda"):
+    def __init__(self, n_chan: int = 3, chan_embed: int = None, grid_size: int = 3, device: str = "cuda"):
         super().__init__()
+        # With n_convs=2 twice, channel count grows as n_chan -> 2*n_chan -> 4*n_chan.
+        # Keep chan_embed adaptive so grayscale and RGB both work out-of-the-box.
+        if chan_embed is None:
+            chan_embed = n_chan * 4
         self.kan_conv1 = KAN_Convolutional_Layer(
             n_convs=2,
             grid_size=grid_size,

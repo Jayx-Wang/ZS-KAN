@@ -235,6 +235,7 @@ zskan analyze-noise \
 Core options:
 - `--method {zs,bm3d}`
 - `--model {zs_n2n,zs_kan,zs_mkan}` (used when `--method zs`)
+  - `zs_mkan` now auto-adapts its intermediate channel width for gray/RGB input.
 - `--noise-source {synthetic,real}`
 - `--img-type {gray,color}`
 - `--clean-img-path ...`
