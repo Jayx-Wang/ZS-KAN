@@ -106,6 +106,9 @@ All outputs are saved to `outputs/...`.
 Recommended device policy:
 - ZS-based methods (`zs_n2n`, `zs_kan`, `zs_mkan`): `--device cuda`
 - BM3D baseline: run on CPU
+Cropping policy:
+- By default, no cropping is applied.
+- To enable center-crop, add `--crop-size <N>` (for example, `--crop-size 256`).
 
 ### 1) Kodak synthetic + ZS-KAN
 
@@ -117,6 +120,7 @@ zskan denoise-single \
   --noise-source synthetic \
   --noise-type poiss \
   --noise-level 80 \
+  --crop-size 256 \
   --clean-img-path data/kodak24/clean/kodim01.png \
   --output-dir outputs/quickstart_kodak_zs \
   --device cuda
@@ -238,6 +242,7 @@ Core options:
   - `zs_mkan` now auto-adapts its intermediate channel width for gray/RGB input.
 - `--noise-source {synthetic,real}`
 - `--img-type {gray,color}`
+- `--crop-size` (optional center-crop size; default is no crop)
 - `--clean-img-path ...`
 - `--noisy-img-path ...` (required for real-noise)
 - `--output-dir ...`
@@ -258,6 +263,7 @@ Core options:
 - `--method {zs,bm3d}`
 - `--model {zs_n2n,zs_kan,zs_mkan}`
 - `--noise-source {synthetic,real}`
+- `--crop-size` (optional center-crop size; default is no crop)
 - `--data-folder ...`
 - `--max-images ...`
 

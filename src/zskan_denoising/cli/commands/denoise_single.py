@@ -8,7 +8,12 @@ def add_denoise_single_args(parser):
     parser.add_argument("--clean-img-path", type=str, required=True)
     parser.add_argument("--noisy-img-path", type=str, default=None)
     parser.add_argument("--output-dir", type=str, default="outputs/denoise_single")
-    parser.add_argument("--crop-size", type=int, default=256)
+    parser.add_argument(
+        "--crop-size",
+        type=int,
+        default=0,
+        help="Optional center-crop size. If omitted or <=0, no cropping is applied.",
+    )
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--lr", type=float, default=None)
     parser.add_argument("--step-size", type=int, default=1000)

@@ -7,7 +7,12 @@ def add_evaluate_dataset_args(parser):
     parser.add_argument("--noise-level", type=float, default=80.0)
     parser.add_argument("--data-folder", type=str, required=True)
     parser.add_argument("--output-dir", type=str, default="outputs/evaluate_dataset")
-    parser.add_argument("--crop-size", type=int, default=0)
+    parser.add_argument(
+        "--crop-size",
+        type=int,
+        default=0,
+        help="Optional center-crop size. If omitted or <=0, no cropping is applied.",
+    )
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--lr", type=float, default=None)
     parser.add_argument("--step-size", type=int, default=1000)

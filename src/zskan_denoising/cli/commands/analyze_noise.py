@@ -4,7 +4,12 @@ def add_analyze_noise_args(parser):
     parser.add_argument("--img-type", type=str, default="gray", choices=["gray", "color"])
     parser.add_argument("--clean-img-path", type=str, required=True)
     parser.add_argument("--noisy-img-path", type=str, required=True)
-    parser.add_argument("--crop-size", type=int, default=256)
+    parser.add_argument(
+        "--crop-size",
+        type=int,
+        default=0,
+        help="Optional center-crop size. If omitted or <=0, no cropping is applied.",
+    )
     parser.add_argument("--output-path", type=str, default="outputs/analyze_noise/noise_analysis.png")
 
 
