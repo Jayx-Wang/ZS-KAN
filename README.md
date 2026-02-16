@@ -129,8 +129,8 @@ zskan denoise-single \
   --model zs_kan \
   --img-type color \
   --noise-source synthetic \
-  --noise-type poiss \
-  --noise-level 50 \
+  --noise-type gauss \
+  --noise-level 25 \
   --clean-img-path data/kodak24/clean/kodim01.png \
   --output-dir outputs/quickstart_kodak_zs \
   --device cuda
