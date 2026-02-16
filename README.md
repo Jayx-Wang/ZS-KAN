@@ -289,12 +289,7 @@ Output report:
 │       ├── models
 │       ├── utils
 │       ├── layers
-│       │   ├── kan_conv_v1
-│       │   └── kan_conv_v2
-│       └── experimental
-│           └── diffusion
-├── third_party
-│   └── kan_implementations
+│       │   └── kan_conv_v1
 └── tests
 ```
 
