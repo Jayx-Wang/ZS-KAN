@@ -96,6 +96,9 @@ data/microscopy/noisy
 ```
 
 Filenames in `clean/` and `noisy/` must match one-to-one.
+Current built-in pairs:
+- `TwoPhoton_BPAE_B_4.png` <-> `TwoPhoton_BPAE_B_4_avg2.png`
+- `Confocal_MICE_4.png` <-> `Confocal_MICE_4_avg2.png`
 
 ## Quick Start
 
@@ -137,8 +140,8 @@ zskan denoise-single \
   --model zs_kan \
   --img-type gray \
   --noise-source real \
-  --clean-img-path data/microscopy/clean/micro_01.png \
-  --noisy-img-path data/microscopy/noisy/micro_01.png \
+  --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
+  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
   --output-dir outputs/quickstart_micro_zs
 ```
 
@@ -150,8 +153,8 @@ zskan denoise-single \
   --img-type gray \
   --noise-source real \
   --sigma-bm3d 0.1 \
-  --clean-img-path data/microscopy/clean/micro_01.png \
-  --noisy-img-path data/microscopy/noisy/micro_01.png \
+  --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
+  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
   --output-dir outputs/quickstart_micro_bm3d
 ```
 
@@ -210,9 +213,9 @@ zskan evaluate-dataset \
 ```bash
 zskan analyze-noise \
   --img-type gray \
-  --clean-img-path data/microscopy/clean/micro_01.png \
-  --noisy-img-path data/microscopy/noisy/micro_01.png \
-  --output-path outputs/noise_analysis/micro_01.png
+  --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
+  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
+  --output-path outputs/noise_analysis/TwoPhoton_BPAE_B_4.png
 ```
 
 ## CLI Reference
