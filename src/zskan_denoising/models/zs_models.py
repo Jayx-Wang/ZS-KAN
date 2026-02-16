@@ -49,24 +49,45 @@ class ZS_MKAN(nn.Module):
 
 
 class ZS_KAN(nn.Module):
-    def __init__(self, n_chan: int = 3, chan_embed: int = 25, grid_size: int = 3, device: str = "cuda"):
+    def __init__(self, n_chan: int = 3, chan_embed: int = 35, grid_size: int = 3, device: str = "cuda"):
         super().__init__()
         self.act = nn.LeakyReLU(negative_slope=0.2, inplace=True)
         self.conv1 = nn.Conv2d(n_chan, chan_embed, 3, padding=1)
         self.conv2 = nn.Conv2d(chan_embed, chan_embed, 3, padding=1)
+        self.conv3 = nn.Conv2d(chan_embed, chan_embed, 3, padding=1)
         self.conv = nn.Conv2d(chan_embed, n_chan, 3, padding=1)
+        # self.kan_conv1 = KAN_Convolutional_Layer(
+        #     n_convs=1,
+        #     grid_size=grid_size,
+        #     kernel_size=(3, 3),
+        #     padding=(1, 1),
+        #     device=device,
+        # )
+        # self.kan_conv2 = KAN_Convolutional_Layer(
+        #     n_convs=1,
+        #     grid_size=grid_size,
+        #     kernel_size=(3, 3),
+        #     padding=(1, 1),
+        #     device=device,
+        # )
         self.kan_conv = KAN_Convolutional_Layer(
             n_convs=1,
             grid_size=grid_size,
             kernel_size=(1, 1),
             device=device,
         )
+        # self.conv = nn.Conv2d(chan_embed, n_chan, 1)
 
     def forward(self, x):
+        # x = self.kan_conv1(x)
+        # x = self.kan_conv2(x)
         x = self.act(self.conv1(x))
         x = self.act(self.conv2(x))
+        x = self.act(self.conv3(x))
         x = self.act(self.conv(x))
-        return self.kan_conv(x)
+        x = self.kan_conv(x)
+        # x = self.conv(x)
+        return x
 
 
 model_dict = {
