@@ -35,6 +35,31 @@ def _serialize_metrics(path: Path, metrics: Dict):
         json.dump(metrics, f, indent=2)
 
 
+def _resolve_real_noisy_pair(clean_img_path: str) -> str:
+    clean_path = Path(clean_img_path)
+    noisy_dir = clean_path.parent.parent / "noisy"
+
+    # 1) strict same-name pairing
+    candidate = noisy_dir / clean_path.name
+    if candidate.exists():
+        return str(candidate)
+
+    # 2) common naming: *_avg2.ext
+    candidate = noisy_dir / f"{clean_path.stem}_avg2{clean_path.suffix}"
+    if candidate.exists():
+        return str(candidate)
+
+    # 3) fallback: first file with same stem prefix
+    for p in sorted(noisy_dir.glob(f"{clean_path.stem}*{clean_path.suffix}")):
+        if p.is_file():
+            return str(p)
+
+    raise FileNotFoundError(
+        f"No matching noisy image found for clean image '{clean_path.name}' in '{noisy_dir}'. "
+        "Expected either same filename or a '*_avg2' suffix."
+    )
+
+
 def denoise_single(
     method: str,
     model_name: str,
@@ -162,7 +187,7 @@ def evaluate_dataset(
         if noise_source == "synthetic":
             noisy_img = add_noise(clean_img, noise_type, noise_level)
         else:
-            paired_noisy = img_path.replace("/clean/", "/noisy/")
+            paired_noisy = _resolve_real_noisy_pair(img_path)
             noisy_img = transform(load_image(paired_noisy, img_type)).unsqueeze(0).to(device)
 
         if method == "bm3d":

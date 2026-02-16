@@ -99,6 +99,7 @@ Filenames in `clean/` and `noisy/` must match one-to-one.
 Current built-in pairs:
 - `TwoPhoton_BPAE_B_4.png` <-> `TwoPhoton_BPAE_B_4_avg2.png`
 - `Confocal_MICE_4.png` <-> `Confocal_MICE_4_avg2.png`
+For `evaluate-dataset --noise-source real`, the loader supports both same-name pairs and `*_avg2` noisy naming.
 
 ## Quick Start
 
