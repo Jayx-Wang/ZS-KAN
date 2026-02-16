@@ -95,11 +95,10 @@ data/microscopy/clean
 data/microscopy/noisy
 ```
 
-Filenames in `clean/` and `noisy/` must match one-to-one.
+Filenames in `clean/` and `noisy/` must match one-to-one, 具有相同的名字。
 Current built-in pairs:
-- `TwoPhoton_BPAE_B_4.png` <-> `TwoPhoton_BPAE_B_4_avg2.png`
-- `Confocal_MICE_4.png` <-> `Confocal_MICE_4_avg2.png`
-For `evaluate-dataset --noise-source real`, the loader supports both same-name pairs and `*_avg2` noisy naming.
+- `TwoPhoton_BPAE_B_4.png` <-> `TwoPhoton_BPAE_B_4.png`
+- `Confocal_MICE_4.png` <-> `Confocal_MICE_4.png`
 
 ## Quick Start
 
@@ -147,7 +146,7 @@ zskan denoise-single \
   --img-type gray \
   --noise-source real \
   --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
-  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
+  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4.png \
   --output-dir outputs/quickstart_micro_zs \
   --device cuda
 ```
@@ -161,7 +160,7 @@ zskan denoise-single \
   --noise-source real \
   --sigma-bm3d 0.1 \
   --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
-  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
+  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4.png \
   --output-dir outputs/quickstart_micro_bm3d \
   --device cpu
 ```
@@ -225,7 +224,7 @@ zskan evaluate-dataset \
 zskan analyze-noise \
   --img-type gray \
   --clean-img-path data/microscopy/clean/TwoPhoton_BPAE_B_4.png \
-  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4_avg2.png \
+  --noisy-img-path data/microscopy/noisy/TwoPhoton_BPAE_B_4.png \
   --output-path outputs/noise_analysis/TwoPhoton_BPAE_B_4.png
 ```
 

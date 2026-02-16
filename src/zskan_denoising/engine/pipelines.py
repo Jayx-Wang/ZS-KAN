@@ -39,24 +39,13 @@ def _resolve_real_noisy_pair(clean_img_path: str) -> str:
     clean_path = Path(clean_img_path)
     noisy_dir = clean_path.parent.parent / "noisy"
 
-    # 1) strict same-name pairing
     candidate = noisy_dir / clean_path.name
     if candidate.exists():
         return str(candidate)
 
-    # 2) common naming: *_avg2.ext
-    candidate = noisy_dir / f"{clean_path.stem}_avg2{clean_path.suffix}"
-    if candidate.exists():
-        return str(candidate)
-
-    # 3) fallback: first file with same stem prefix
-    for p in sorted(noisy_dir.glob(f"{clean_path.stem}*{clean_path.suffix}")):
-        if p.is_file():
-            return str(p)
-
     raise FileNotFoundError(
         f"No matching noisy image found for clean image '{clean_path.name}' in '{noisy_dir}'. "
-        "Expected either same filename or a '*_avg2' suffix."
+        "Expected the same filename in both clean/ and noisy/ directories."
     )
 
 
