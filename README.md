@@ -27,6 +27,9 @@ Across both synthetic and real noisy images, ZS-KAN achieves comparable or bette
 
 These results show that KAN-based lightweight denoisers are practical for real-world deployment, especially in medical imaging workflows.
 
+![Visual comparison of denoising results using different zero-shot methods on real-world noisy samples.](figs/realnoise.png)
+*Figure 1. Visual comparison of denoising results using different zero-shot methods on real-world noisy samples.*
+
 ## Installation
 
 Tested environment:
@@ -114,6 +117,9 @@ Two common variants are:
 To adjust network size, modify `src/zskan_denoising/models/zs_models.py`:
 - `chan_embed` in `ZS_KAN.__init__`
 - Number of CNN layers (for example, enable/disable `conv3`)
+
+![Computational complexity analysis of various networks](figs/time_psnr.png)
+*Figure 2. Computational complexity analysis of various networks.*
 
 ## Quick Start
 
