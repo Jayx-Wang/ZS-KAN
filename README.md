@@ -66,13 +66,6 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-Reproducible install (closest to published setup):
-
-```bash
-pip install -r requirements-lock.txt
-pip install -e .
-```
-
 ### 5) Check CLI
 
 ```bash
